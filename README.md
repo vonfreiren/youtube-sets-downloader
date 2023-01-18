@@ -1,21 +1,26 @@
-# youtube-downloader
+# README
 
-The Youtube-Sets-Downloader is used to download mp3 sets from Youtube.
+This script allows the user to convert a list of YouTube video URLs to mp3 files, with metadata tags added to the files using the eyed3 library. The script uses the pytube and youtube-dl libraries to download the videos and extract the audio.
 
-When downloading the music, it also includes the following information:
+The script also uses the Google Images library to retrieve the cover art for the mp3 file, and the yaml library to read a configuration file containing the destination path for the downloaded files.
 
-## Metadata
+The script also contains a GUI that allows the user to input the video URLs and select the quality of the mp3 files.
 
-- Song title
-- Artist
-- Album
-- Artist album
-- Year 
-- Genre
+## Dependencies
+- eyed3
+- pytube
+- youtube-dl
+- google_images
+- yaml
+- PyQt6
 
-## Picture
+## Configuration
+You need to create a config.yaml file with the following structure:
 
-It also downloads and sets the cover picture for that track.
+- path: "path to save the files"
 
-Furthermore, there is a directiory with scikit-learn library to train and evaluate two neural network models, one for predicting the title of a music file and one for predicting the artist of a music file, using a dataset in a csv file.
+-
+## Usage
+Run the script and enter the youtube URLs in the GUI, select the mp3 quality and click the "Convert" button. The mp3 files will be saved in the path specified in the config.yaml file and the mp4 files will be deleted in the path specified in the config.yaml file.
 
+Note: you need to have ffmpeg installed on your system and set the path to the ffmpeg executable in the os.environ["IMAGEIO_FFMPEG_EXE"] variable before running the script.
