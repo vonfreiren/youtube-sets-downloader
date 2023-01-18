@@ -1,0 +1,6 @@
+path: '/Users/XXX/Desktop/mp3'
+path_delete_mp4: '/Users/XXX/Desktop/mp3/**'
+
+#API and Project Id for Google Images API
+api : 'API_ID_HERE'
+cx_id : 'PROJECT_ID_HERE'
