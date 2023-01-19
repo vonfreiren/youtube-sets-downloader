@@ -7,13 +7,13 @@ from auxiliar.constants import remove_words
 
 
 def define_separator(name):
-    separators = ["live from", "live at", " - ", " @ ", " from ", " by ", " | ", " ｜ ", " | ", " | "]
-    separator = " - "
+    separators = ["live from", "live at", "live @", "live",  " - ", " @ ", " from ", " by ", " | ", " ｜ ", " | ", " | "]
+    separator = None
     words = name.split()
     for word in words:
         for sep in separators:
             if sep.strip().upper() == word.strip().upper():
-                separator = sep
+                separator = word
                 return separator
 
     return separator
@@ -65,13 +65,3 @@ def clean_title(title):
     if title.isupper():
         title = title.title()
         return title
-
-
-df = pd.read_csv('/Users/javier/PycharmProjects/youtube-downloader/files/files.csv')
-
-# Extract the features and labels
-
-y = df['Artist']
-y = list(y)
-artist = "arminvanbuuren"
-similar_names = difflib.get_close_matches(artist.upper(), y, cutoff=0.7)

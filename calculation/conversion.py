@@ -44,10 +44,23 @@ def convert(url):
 
         song_title = clean_song_title(song_title)
         separator = define_separator(song_title)
+        if separator is None:
+            festival_name = False
+            separator = find_festival_name(song_title)
+            if separator is not None:
+                festival_name = True
 
-        artist = song_title.split(separator)[0]
-        split_index = song_title.find(separator) + 1
-        title = song_title[split_index+1:]
+        split_song_title = song_title.split(separator)
+        artist = split_song_title[0]
+        if festival_name:
+            title = separator + " " + split_song_title[1]
+        else:
+            if separator is None:
+                separator = " "
+            title = split_song_title[1]
+            if len(split_song_title) > 2:
+                for i in range(2, len(split_song_title)):
+                    title = title + separator + split_song_title[i]
         title = title.strip()
         artist = clean_artist(artist, info)
         year = get_year(song_title, info)
@@ -57,6 +70,14 @@ def convert(url):
 
         success_message = "Downloaded: " + name
         print(colored(success_message, 'green'))
+
+def find_festival_name(name):
+    festivals = ["Tomorrowland", "Ultra Music Festival", "EDC", "Creamfields", "Tomorrowland Winter", "Tomorrowland Brasil"]
+    for festival in festivals:
+        if festival in name:
+            return festival
+
+    return None
 
 
 def create_tag(name, year, artist, title, song_title):
