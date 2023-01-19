@@ -39,6 +39,12 @@ def clean_artist(artist, info):
     return artist
 
 def correct_artist(artist, info):
+    df = pd.read_csv('/Users/javier/PycharmProjects/youtube-downloader/files/files.csv')
+    y = df['Artist']
+    y = list(y)
+    similar_names = difflib.get_close_matches(artist.upper(), y, cutoff=0.9)
+    if len(similar_names)>0:
+        return similar_names[0]
     match = re.search(r'\b\d{4}\b', artist)
     if match:
         return info['uploader']
@@ -46,9 +52,6 @@ def correct_artist(artist, info):
 
 def get_similar_names(artist):
     df = pd.read_csv('/Users/javier/PycharmProjects/youtube-downloader/files/files.csv')
-
-    # Extract the features and labels
-
     y = df['Artist']
     y = list(y)
 

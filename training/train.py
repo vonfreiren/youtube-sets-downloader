@@ -1,10 +1,8 @@
 import numpy as np
-from sklearn.model_selection import train_test_split
-from sklearn.neural_network import MLPRegressor
 import pandas as pd
-import numpy as np
-from sklearn.preprocessing import OneHotEncoder
+from sklearn.model_selection import train_test_split
 from sklearn.neural_network import MLPClassifier
+from sklearn.preprocessing import OneHotEncoder
 
 # Load your dataset
 

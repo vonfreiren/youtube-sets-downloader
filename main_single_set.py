@@ -17,15 +17,7 @@ list_values = []
 
 
 
-
-
 if __name__ == '__main__':
-    url_1 = "https://www.youtube.com/watch?v=QR18RWk47Io"
-    url_2 = 'https://www.youtube.com/watch?v=03Gt1PNZ0sg'
+    url_1 = "https://www.youtube.com/watch?v=5OYLLNbeNpE"
 
-    urls = [url_1, url_2]
-    for url in urls:
-        try:
-            convert(url)
-        except:
-            print("error")
+    convert(url_1)
