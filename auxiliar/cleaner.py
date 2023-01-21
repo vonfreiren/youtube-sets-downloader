@@ -7,7 +7,7 @@ from auxiliar.constants import remove_words
 
 
 def define_separator(name):
-    separators = ["live from", "live at", "live @", "live",  " - ", " @ ", " from ", " by ", " | ", " ｜ ", " | ", " | "]
+    separators = ["live from", "live at", "Live @", "live @", "live",  " - ", " @ ", " from ", " by ", " | ", " ｜ ", " | ", " | "]
     separator = None
     words = name.split()
     for word in words:

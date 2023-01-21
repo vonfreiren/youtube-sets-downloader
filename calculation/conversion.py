@@ -44,8 +44,9 @@ def convert(url):
 
         song_title = clean_song_title(song_title)
         separator = define_separator(song_title)
+        festival_name = False
+
         if separator is None:
-            festival_name = False
             separator = find_festival_name(song_title)
             if separator is not None:
                 festival_name = True
@@ -119,6 +120,15 @@ def get_year(name, info):
                 return year
             except:
                 return datetime.now().year
+
+        elif 'upload_date' in info:
+            try:
+                year = info['upload_date'][0:4]
+                return year
+            except:
+                return datetime.now().year
+
+    return datetime.now().year
 
 
 

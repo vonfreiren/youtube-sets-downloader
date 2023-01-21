@@ -18,6 +18,6 @@ list_values = []
 
 
 if __name__ == '__main__':
-    url_1 = "https://www.youtube.com/watch?v=5OYLLNbeNpE"
+    url_1 = input("Include Youtube URL: ")
 
     convert(url_1)
