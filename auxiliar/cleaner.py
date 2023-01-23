@@ -39,10 +39,10 @@ def clean_artist(artist, info):
     return artist
 
 def correct_artist(artist, info):
-    df = pd.read_csv('/Users/javier/PycharmProjects/youtube-downloader/files/files.csv')
-    y = df['Artist']
-    y = list(y)
-    similar_names = difflib.get_close_matches(artist.upper(), y, cutoff=0.9)
+    df_files_music = pd.read_csv('/Users/javier/PycharmProjects/youtube-downloader/files/files.csv')
+    list_artists = df_files_music['Artist']
+    list_artists = list(list_artists)
+    similar_names = difflib.get_close_matches(artist.upper(), list_artists, cutoff=0.9)
     if len(similar_names)>0:
         return similar_names[0]
     match = re.search(r'\b\d{4}\b', artist)
@@ -51,17 +51,23 @@ def correct_artist(artist, info):
     return artist
 
 def get_similar_names(artist):
-    df = pd.read_csv('/Users/javier/PycharmProjects/youtube-downloader/files/files.csv')
-    y = df['Artist']
-    y = list(y)
+    df_music_files = pd.read_csv('/Users/javier/PycharmProjects/youtube-downloader/files/files.csv')
+    artists = df_music_files['Artist']
+    list_artists = list(artists)
 
-    similar_names = difflib.get_close_matches(artist.upper(), y, cutoff=0.7)
-    if (len(similar_names) > 0):
+    similar_names = difflib.get_close_matches(artist.upper(), list_artists, cutoff=0.7)
+    if len(similar_names) > 0:
         return similar_names[0]
 
     return artist
 
-def clean_title(title):
-    if title.isupper():
-        title = title.title()
-        return title
+def get_exact_name(artist):
+    df_music_files = pd.read_csv('/Users/javier/PycharmProjects/youtube-downloader/files/files.csv')
+    artists_list = df_music_files['Artist']
+    artists_list = list(artists_list)
+    artists_list = [x.upper() for x in artists_list]
+
+    if artist.upper() in artists_list:
+        return True
+
+    return False

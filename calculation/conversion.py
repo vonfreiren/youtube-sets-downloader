@@ -8,7 +8,7 @@ from pytube import YouTube
 from termcolor import colored
 from yt_dlp import YoutubeDL
 
-from auxiliar.cleaner import clean_song_title, define_separator, clean_artist
+from auxiliar.cleaner import clean_song_title, define_separator, clean_artist, get_exact_name
 from images.google_images import retrieve_image_cover, load_image
 
 os.environ["IMAGEIO_FFMPEG_EXE"] = "/usr/bin/ffmpeg"
@@ -63,7 +63,14 @@ def convert(url):
                 for i in range(2, len(split_song_title)):
                     title = title + separator + split_song_title[i]
         title = title.strip()
+
+        if is_inverse(title):
+            temp_artist = artist
+            artist = title
+            title = temp_artist
+
         artist = clean_artist(artist, info)
+
         year = get_year(song_title, info)
 
         create_tag(name, year, artist, title, song_title)
@@ -72,6 +79,10 @@ def convert(url):
         success_message = "Downloaded: " + name
         print(colored(success_message, 'green'))
 
+def is_inverse(name):
+    if get_exact_name(name):
+        return True
+    return False
 def find_festival_name(name):
     festivals = ["Tomorrowland", "Ultra Music Festival", "EDC", "Creamfields", "Tomorrowland Winter", "Tomorrowland Brasil"]
     for festival in festivals:
