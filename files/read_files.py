@@ -36,8 +36,8 @@ for filename in os.listdir(directory_path):
         # Add the file name and size to the data list
         data.append([filename, title, artist, album, genre, year, artist_album])
 
-    for filename in os.listdir(directory_path_2):
-        file_path = os.path.join(directory_path_2, filename)
+    for filename in os.listdir(directory_path):
+        file_path = os.path.join(directory_path, filename)
         if os.path.isfile(file_path) and file_path.endswith(".mp3"):
             # Get the file size
             audio = eyed3.load(file_path)

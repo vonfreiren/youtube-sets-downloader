@@ -2,8 +2,9 @@ import os
 import re
 from datetime import datetime
 
-import eyed3
 import yaml
+from mutagen.id3 import ID3, TIT2, TPE1, TALB, TCON, TYER
+from mutagen.mp3 import MP3
 from pytube import YouTube
 from termcolor import colored
 from yt_dlp import YoutubeDL
@@ -93,26 +94,39 @@ def find_festival_name(name):
 
 
 def create_tag(name, year, artist, title, song_title):
-    audio = eyed3.load(name)
-    audio.initTag()
 
-    audio.tag.release_date = year
-    audio.tag.recording_date = year
-    audio.tag.tagging_date = year
-    audio.tag.release_date = year
-    audio.tag.org_recording_date = year
 
-    audio.tag.artist = artist
-    audio.tag.album = title
-    audio.tag.title = title
-    audio.tag.album_artist = artist
+    audio = MP3(name, ID3=ID3)
+    audio.ID3.version = (3, 2)
 
-    audio.tag.genre = "Electronic"
+    # add title tag
+    audio.tags.add(TIT2(encoding=3, text=title))
 
-    cover_image = retrieve_image_cover(song_title)
-    audio = load_image(audio, cover_image)
+    # add artist tag
+    audio.tags.add(TPE1(encoding=3, text=artist))
 
-    audio.tag.save(version=eyed3.id3.ID3_V2_3)
+    # add album tag
+    audio.tags.add(TALB(encoding=3, text=artist))
+
+    audio.tags.add(TALB(encoding=3, text=title))
+
+    audio.tags.add(TYER(encoding=3, text=year))
+
+    # add genre tag
+    audio.tags.add(TCON(encoding=3, text="Electronic"))
+
+    audio.save()
+
+
+
+    try:
+        cover_image = retrieve_image_cover(song_title)
+        audio = load_image(audio, cover_image, name)
+    except:
+        print("error with image")
+
+    audio.save()
+
 
 
 

@@ -1,9 +1,11 @@
 import random
+import random
 import urllib
 
 import yaml
 from google_images_search import GoogleImagesSearch
-
+from mutagen.id3 import APIC, ID3
+from mutagen.mp3 import MP3
 
 user_agents = [
     'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Safari/537.36',
@@ -38,7 +40,7 @@ def retrieve_image_cover(name):
     return first_image_url
 
 
-def load_image(audio, cover_image):
+def load_image(audio, cover_image, name):
     url = cover_image
 
     # A list of user agents to choose from
@@ -56,8 +58,26 @@ def load_image(audio, cover_image):
     try:
         response = urllib.request.urlopen(req)
         content = response.read()
-        audio.tag.images.set(3, content, "image/jpeg")
-        audio.tag.save()
+
+
+        audio = MP3(name, ID3=ID3)
+        # Create an APIC frame with the image data
+        apic = APIC(
+            encoding=3,  # 3 is for UTF-8
+            mime='image/jpeg',
+            type=3,  # 3 is for the cover image
+            desc='Cover',
+            data=content
+        )
+
+        # Add the APIC frame to the ID3 tags
+        audio.tags.add(apic)
+
+        # Save the changes to the music file
+        audio.save()
+
+
+
         return audio
     except urllib.error.HTTPError as e:
         return audio
