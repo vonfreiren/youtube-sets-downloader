@@ -8,6 +8,10 @@ from mutagen.mp3 import MP3
 from pytube import YouTube
 from termcolor import colored
 from yt_dlp import YoutubeDL
+from googlesearch import search
+
+
+
 
 from auxiliar.cleaner import clean_song_title, define_separator, clean_artist, get_exact_name
 from images.google_images import retrieve_image_cover, load_image
@@ -21,6 +25,8 @@ path = data['path']
 path_delete_mp4 = data['path_delete_mp4']
 destination = path + "/"
 list_values = []
+
+
 
 def convert(url):
     ydl_opts = {
@@ -42,6 +48,7 @@ def convert(url):
         name = name.replace(".m4a", ".mp3")
         name = name.replace('"', '')
         song_title = YouTube(url).title
+        image = YouTube(url).thumbnail_url
 
         song_title = clean_song_title(song_title)
         separator = define_separator(song_title)
@@ -74,7 +81,7 @@ def convert(url):
 
         year = get_year(song_title, info)
 
-        create_tag(name, year, artist, title, song_title)
+        create_tag(name, year, artist, title, song_title, image)
         list_values.append([name, artist, title, year])
 
         success_message = "Downloaded: " + name
@@ -93,7 +100,7 @@ def find_festival_name(name):
     return None
 
 
-def create_tag(name, year, artist, title, song_title):
+def create_tag(name, year, artist, title, song_title, image):
 
 
     audio = MP3(name, ID3=ID3)
@@ -120,8 +127,9 @@ def create_tag(name, year, artist, title, song_title):
 
 
     try:
-        cover_image = retrieve_image_cover(song_title)
-        audio = load_image(audio, cover_image, name)
+        #cover_image = retrieve_image_cover(song_title)
+        cover_image = ''
+        audio = load_image(audio, cover_image, name, image)
     except:
         print("error with image")
 

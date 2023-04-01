@@ -40,8 +40,8 @@ def retrieve_image_cover(name):
     return first_image_url
 
 
-def load_image(audio, cover_image, name):
-    url = cover_image
+def load_image(audio, cover_image, name, image):
+    url = image
 
     # A list of user agents to choose from
     user_agents = [
