@@ -15,6 +15,7 @@ from googlesearch import search
 
 from auxiliar.cleaner import clean_song_title, define_separator, clean_artist, get_exact_name
 from images.google_images import retrieve_image_cover, load_image
+from mongodb.insert_data import insert_db
 
 os.environ["IMAGEIO_FFMPEG_EXE"] = "/usr/bin/ffmpeg"
 
@@ -83,6 +84,10 @@ def convert(url):
 
         create_tag(name, year, artist, title, song_title, image)
         list_values.append([name, artist, title, year])
+        try:
+            insert_db(title, artist, image, url)
+        except:
+            print("No database connection. Details could not be saved in the database.")
 
         success_message = "Downloaded: " + name
         print(colored(success_message, 'green'))
