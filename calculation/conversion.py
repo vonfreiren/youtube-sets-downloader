@@ -14,6 +14,7 @@ from googlesearch import search
 
 
 from auxiliar.cleaner import clean_song_title, define_separator, clean_artist, get_exact_name
+from auxiliar.constants import AT
 from images.google_images import retrieve_image_cover, load_image
 from mongodb.insert_data import insert_db
 
@@ -48,7 +49,7 @@ def convert(url):
         name = name.replace(".webm", ".mp3")
         name = name.replace(".m4a", ".mp3")
         name = name.replace('"', '')
-        song_title = YouTube(url).title
+        song_title = info['title']
         image = YouTube(url).thumbnail_url
 
         song_title = clean_song_title(song_title)
@@ -79,6 +80,7 @@ def convert(url):
             title = temp_artist
 
         artist = clean_artist(artist, info)
+        title = clean_title(title)
 
         year = get_year(song_title, info)
 
@@ -91,6 +93,12 @@ def convert(url):
 
         success_message = "Downloaded: " + name
         print(colored(success_message, 'green'))
+
+def clean_title(title):
+    if title.startswith(AT):
+        title = title[1:]
+    return title
+
 
 def is_inverse(name):
     if get_exact_name(name):

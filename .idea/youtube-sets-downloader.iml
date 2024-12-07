@@ -7,4 +7,7 @@
     <orderEntry type="jdk" jdkName="Python 3.11 (youtube-sets-downloader)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
+  <component name="SonarLintModuleSettings">
+    <option name="uniqueId" value="20999d2a-6e65-4558-8bf7-23deff4b626a" />
+  </component>
 </module>
