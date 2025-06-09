@@ -8,7 +8,6 @@ from mutagen.mp3 import MP3
 from pytube import YouTube
 from termcolor import colored
 from yt_dlp import YoutubeDL
-from googlesearch import search
 
 
 
@@ -16,7 +15,7 @@ from googlesearch import search
 from auxiliar.cleaner import clean_song_title, define_separator, clean_artist, get_exact_name
 from auxiliar.constants import AT
 from images.google_images import retrieve_image_cover, load_image
-from mongodb.insert_data import insert_db
+#from mongodb.insert_data import insert_db
 
 os.environ["IMAGEIO_FFMPEG_EXE"] = "/usr/bin/ffmpeg"
 
@@ -50,7 +49,10 @@ def convert(url):
         name = name.replace(".m4a", ".mp3")
         name = name.replace('"', '')
         song_title = info['title']
-        image = YouTube(url).thumbnail_url
+        try:
+            image = YouTube(url).thumbnail_url
+        except:
+            image = None
 
         song_title = clean_song_title(song_title)
         separator = define_separator(song_title)
@@ -87,7 +89,8 @@ def convert(url):
         create_tag(name, year, artist, title, song_title, image)
         list_values.append([name, artist, title, year])
         try:
-            insert_db(title, artist, image, url)
+            print("a")
+            #insert_db(title, artist, image, name)
         except:
             print("No database connection. Details could not be saved in the database.")
 
@@ -116,7 +119,7 @@ def find_festival_name(name):
 def create_tag(name, year, artist, title, song_title, image):
 
 
-    audio = MP3(name, ID3=ID3)
+    audio = MP3(name.replace(".mp4", ".mp3"), ID3=ID3)
     audio.ID3.version = (3, 2)
 
     # add title tag
