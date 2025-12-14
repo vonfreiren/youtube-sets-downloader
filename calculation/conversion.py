@@ -50,7 +50,7 @@ def convert(url):
         name = name.replace('"', '')
         song_title = info['title']
         try:
-            image = YouTube(url).thumbnail_url
+            image = info['thumbnail']
         except:
             image = None
 

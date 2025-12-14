@@ -59,7 +59,7 @@ def load_image(audio, cover_image, name, image):
         response = urllib.request.urlopen(req)
         content = response.read()
 
-
+        name = name.rsplit('.', 1)[0] + '.mp3'
         audio = MP3(name, ID3=ID3)
         # Create an APIC frame with the image data
         apic = APIC(
@@ -80,6 +80,6 @@ def load_image(audio, cover_image, name, image):
 
         return audio
     except urllib.error.HTTPError as e:
-        return audio
         print(e)
+        return audio
 
